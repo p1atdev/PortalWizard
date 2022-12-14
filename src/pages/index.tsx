@@ -4,9 +4,13 @@ import Image from "next/image"
 
 const Page = () => {
   return (
-    <div className="p-2 h-full bg-red w-full">
-      <div className="flex">
-        <div className=""></div>
+    <div className="h-full w-full">
+      <div className="flex h-full gap-4">
+        <div className="w-32"></div>
+        <div className="w-[1px] bg-gray-300" />
+        <div className="flex-1"></div>
+        <div className="w-[1px] bg-gray-300" />
+        <div className="w-[256px]"></div>
       </div>
     </div>
   )
