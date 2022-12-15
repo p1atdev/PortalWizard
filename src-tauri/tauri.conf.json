@@ -56,9 +56,11 @@
             {
                 "fullscreen": false,
                 "height": 600,
+                "width": 800,
                 "resizable": true,
-                "title": "portal-wizard",
-                "width": 800
+                "title": "Portal Wizard",
+                "minHeight": 320,
+                "minWidth": 320
             }
         ]
     }
