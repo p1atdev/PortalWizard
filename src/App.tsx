@@ -12,8 +12,16 @@ function App() {
   }
 
   return (
-    <div className="bg-red-500">
-      <p className="text-8xl">hello</p>
+    <div className="flex h-[100dvh] w-full">
+      <div className="w-[128px]"></div>
+
+      <div className="w-[1px] bg-gray-300" />
+
+      <div className="flex-1"></div>
+
+      <div className="w-[1px] bg-gray-300" />
+
+      <div className="w-[256px]"></div>
     </div>
   )
 }
