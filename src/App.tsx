@@ -22,9 +22,9 @@ function App() {
         <div className="h-[1px] bg-gray-300" />
 
         <div className="flex flex-1 flex-col">
-          <div className="grid flex-1 place-content-center ">
+          <div className="grid flex-1 shrink place-content-center">
             <img
-              className="max-h-[640px] object-contain p-8 md:max-h-[900px] xl:max-w-[640px] xl:p-4"
+              className="max-h-[640px] object-contain p-8"
               src="/sample.png"
             />
           </div>
@@ -48,7 +48,7 @@ function App() {
 
       <div className="w-[1px] bg-gray-300" />
 
-      <div className="relative flex w-[300px] flex-col">
+      <div className="relative flex w-[300px] flex-col overflow-y-scroll">
         <div className="px-4 py-2">
           <p>Model</p>
           <p className="py-1 text-lg font-semibold">derrida_full.ckpt</p>
@@ -93,7 +93,7 @@ function App() {
           </p>
         </div>
 
-        <div className="absolute bottom-0 z-10 grid h-[64px] w-full place-items-center border-t-[1px] border-gray-300">
+        <div className="sticky bottom-0 z-10 mt-auto grid h-[64px] w-full place-items-center border-t-[1px] border-gray-300 bg-white">
           <div>
             <p>Disconnect</p>
             <div className="my-auto flex w-full items-center">
