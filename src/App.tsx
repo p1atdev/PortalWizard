@@ -1,13 +1,17 @@
 import { useState } from "react"
 import { invoke } from "@tauri-apps/api/tauri"
+import { useAUTO1111 } from "./hooks/auto1111"
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("")
-  const [name, setName] = useState("")
+  const [config, setConfig] = useState("")
+  const [host, setHost] = useState("http://localhost:7860")
+  const { v1_sd_models } = useAUTO1111({ host })
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }))
+  async function getConfig() {
+    setConfig("Loading...")
+    const models = await v1_sd_models()
+    console.log(models)
+    setConfig(models)
   }
 
   return (
@@ -32,7 +36,9 @@ function App() {
           <div className="flex justify-between p-2">
             <p>25/75</p>
 
-            <button className="py-1 px-2">Generate</button>
+            <button className="py-1 px-2" onClick={getConfig}>
+              Generate
+            </button>
           </div>
         </div>
 
@@ -91,6 +97,11 @@ function App() {
             digit, fewer digits, cropped, worst quality, low quality, normal
             quality, jpeg artifacts, signature, watermark, username, blurry
           </p>
+        </div>
+
+        <div className="px-4 py-2">
+          <p>Test</p>
+          <p className="py-1">{config}</p>
         </div>
 
         <div className="sticky bottom-0 z-10 mt-auto grid h-[64px] w-full place-items-center border-t-[1px] border-gray-300 bg-white">

@@ -3,15 +3,18 @@
     windows_subsystem = "windows"
 )]
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+mod app;
+mod conf;
+mod utils;
+
+use app::cmd;
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![
+            cmd::auto_config,
+            cmd::auto_v1_sd_models
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
