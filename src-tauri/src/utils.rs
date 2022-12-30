@@ -1,5 +1,5 @@
 use crate::conf;
-use reqwest;
+use reqwest::{self, Method};
 
 pub struct Fetch {}
 

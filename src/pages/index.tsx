@@ -1,18 +1,19 @@
 import { useState } from "react"
 import { invoke } from "@tauri-apps/api/tauri"
-import { useAUTO1111 } from "./hooks/auto1111"
+import { useAUTO1111 } from "../hooks/auto1111"
+import { AUTO1111V1SDModels } from "../types/mod"
 
 function App() {
   const [config, setConfig] = useState("")
-  const [host, setHost] = useState("http://localhost:7860")
-  const { v1_sd_models } = useAUTO1111({ host })
+  const [host, setHost] = useState("http://localhost:7861")
+  const { v1 } = useAUTO1111({ host })
 
-  // async function getConfig() {
-  //   setConfig("Loading...")
-  //   const models = await v1_sd_models()
-  //   console.log(models)
-  //   setConfig(models)
-  // }
+  const [models, setModels] = useState<AUTO1111V1SDModels>([])
+
+  async function getModels() {
+    const models = await v1.sdModels()
+    setModels(models)
+  }
 
   return (
     <div className="flex h-[100dvh] w-full overflow-hidden">
@@ -21,14 +22,14 @@ function App() {
       <div className="w-[1px] bg-gray-300" />
 
       <div className="flex flex-1 flex-col">
-        <div className="h-[64px]"></div>
+        <div className="min-h-[64px]"></div>
 
         <div className="h-[1px] bg-gray-300" />
 
-        <div className="flex flex-1 flex-col">
-          <div className="grid flex-1 shrink place-content-center">
+        <div className="flex shrink grow flex-col">
+          <div className="grid shrink grow place-content-center">
             <img
-              className="max-h-[640px] object-contain p-8"
+              className="h-full max-h-[640px] object-contain p-8"
               src="/sample.png"
             />
           </div>
@@ -36,7 +37,9 @@ function App() {
           <div className="flex justify-between p-2">
             <p>25/75</p>
 
-            <button className="py-1 px-2">Generate</button>
+            <button className="py-1 px-2" onClick={getModels}>
+              Generate
+            </button>
           </div>
         </div>
 
@@ -55,7 +58,9 @@ function App() {
       <div className="relative flex w-[300px] flex-col overflow-y-scroll">
         <div className="px-4 py-2">
           <p>Model</p>
-          <p className="py-1 text-lg font-semibold">derrida_full.ckpt</p>
+          <p className="py-1 text-lg font-semibold">
+            {models[1] ? models[1].model_name : "None"}
+          </p>
         </div>
         <div className="px-4 py-2">
           <p>VAE</p>

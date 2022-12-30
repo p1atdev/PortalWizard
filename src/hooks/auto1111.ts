@@ -1,10 +1,10 @@
-import { invoke } from "@tauri-apps/api/tauri"
 import {
   AUTO1111V1Options,
   AUTO1111V1Samplers,
   AUTO1111V1SDModels,
   AUTO1111V1Progress,
 } from "../types/mod"
+import { invokeSDAPI, SDAPIOptions } from "../types/sdapi"
 
 interface AUTO111Options {
   host: string
@@ -12,48 +12,58 @@ interface AUTO111Options {
 
 const AUTO111Keys = {
   v1: {
-    options: "auto_v1_options",
-    samplers: "auto_v1_samplers",
-    models: "auto_v1_sd_models",
-    progress: "auto_v1_progress",
+    options: "/sdapi/v1/options",
+    samplers: "/sdapi/v1/samplers",
+    models: "/sdapi/v1/sd-models",
+    progress: "/sdapi/v1/progress",
   },
-  config: "auto_config",
 }
 
 export const useAUTO1111 = ({ host }: AUTO111Options) => {
-  const config = async (): Promise<string> => {
-    return await invoke(AUTO111Keys.config, { host })
+  const invoke = async (options: Omit<SDAPIOptions, "host" | "auth">) => {
+    return await invokeSDAPI({
+      host,
+      path: options.path,
+      method: options.method,
+      body: options.body,
+    })
   }
 
-  const v1_samplers = async (): Promise<AUTO1111V1Samplers> => {
-    const body: string = await invoke(AUTO111Keys.v1.samplers, { host })
-    const json: AUTO1111V1Samplers = JSON.parse(body)
-    return json
-  }
+  const v1 = {
+    samplers: async (): Promise<AUTO1111V1Samplers> => {
+      const res: AUTO1111V1Samplers = await invoke({
+        path: AUTO111Keys.v1.samplers,
+        method: "GET",
+      })
+      return res
+    },
 
-  const v1_sd_models = async (): Promise<AUTO1111V1SDModels> => {
-    const body: string = await invoke(AUTO111Keys.v1.models, { host })
-    const json: AUTO1111V1SDModels = JSON.parse(body)
-    return json
-  }
+    sdModels: async (): Promise<AUTO1111V1SDModels> => {
+      const res: AUTO1111V1SDModels = await invoke({
+        path: AUTO111Keys.v1.models,
+        method: "GET",
+      })
+      return res
+    },
 
-  const v1_options = async (): Promise<AUTO1111V1Options> => {
-    const body: string = await invoke(AUTO111Keys.v1.options, { host })
-    const json: AUTO1111V1Options = JSON.parse(body)
-    return json
-  }
+    options: async (): Promise<AUTO1111V1Options> => {
+      const res: AUTO1111V1Options = await invoke({
+        path: AUTO111Keys.v1.options,
+        method: "GET",
+      })
+      return res
+    },
 
-  const v1_progress = async (): Promise<AUTO1111V1Progress> => {
-    const body: string = await invoke(AUTO111Keys.v1.progress, { host })
-    const json: AUTO1111V1Progress = JSON.parse(body)
-    return json
+    progress: async (): Promise<AUTO1111V1Progress> => {
+      const res: AUTO1111V1Progress = await invoke({
+        path: AUTO111Keys.v1.progress,
+        method: "GET",
+      })
+      return res
+    },
   }
 
   return {
-    config,
-    v1_options,
-    v1_samplers,
-    v1_sd_models,
-    v1_progress,
+    v1,
   }
 }

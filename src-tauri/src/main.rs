@@ -11,13 +11,7 @@ use app::cmd;
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![
-            cmd::auto_config,
-            cmd::auto_v1_options,
-            cmd::auto_v1_samplers,
-            cmd::auto_v1_sd_models,
-            cmd::auto_v1_progress
-        ])
+        .invoke_handler(tauri::generate_handler![cmd::sdapi,])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
