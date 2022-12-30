@@ -13,7 +13,7 @@ const HostField = ({ initialHost, onChange }: Props) => {
   const [security, setSecurity] = useState<SecurityState>("unknown")
   const [host, setHost] = useState(initialHost)
 
-  const { connectionCheck } = useAUTO1111({ host })
+  const { connect } = useAUTO1111({ host })
 
   const connectionState = () => {
     switch (connection) {
@@ -75,7 +75,7 @@ const HostField = ({ initialHost, onChange }: Props) => {
         <button
           onClick={async () => {
             setConnection("connecting")
-            const result = await connectionCheck()
+            const result = await connect()
             setConnection(result.connection)
             setSecurity(result.security)
           }}

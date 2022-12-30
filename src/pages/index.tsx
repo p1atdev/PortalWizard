@@ -3,6 +3,8 @@ import { invoke } from "@tauri-apps/api/tauri"
 import { useAUTO1111 } from "../hooks/auto1111"
 import { AUTO1111V1SDModels } from "../types/mod"
 import HostField from "../components/parameters/hostField"
+import SDModelWidget from "../components/parameters/sdModels"
+import SamplerWidget from "../components/parameters/sampler"
 
 function App() {
   const [config, setConfig] = useState("")
@@ -56,13 +58,14 @@ function App() {
 
       <div className="w-[1px] bg-gray-300" />
 
-      <div className="relative flex w-[300px] flex-col overflow-y-scroll">
-        <div className="px-4 py-2">
+      <div className="relative flex w-[300px] flex-col overflow-x-hidden overflow-y-scroll">
+        {/* <div className="px-4 py-2">
           <p>Model</p>
           <p className="py-1 text-lg font-semibold">
             {models[1] ? models[1].model_name : "None"}
           </p>
-        </div>
+        </div> */}
+        <SDModelWidget />
         <div className="px-4 py-2">
           <p>VAE</p>
           <p className="py-1 text-lg font-semibold">auto</p>
@@ -84,10 +87,7 @@ function App() {
           </div>
         </div>
 
-        <div className="px-4 py-2">
-          <p>Sampler</p>
-          <p className="py-1 text-lg font-semibold">DPM++ 2M</p>
-        </div>
+        <SamplerWidget />
 
         <div className="px-4 py-2">
           <p>Art preset</p>

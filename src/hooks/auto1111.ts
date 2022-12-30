@@ -1,3 +1,5 @@
+import { useRecoilState } from "recoil"
+import { AUTO1111Atom } from "../atoms/auto1111"
 import {
   AUTO1111V1Options,
   AUTO1111V1Samplers,
@@ -23,6 +25,8 @@ const AUTO111Keys = {
 }
 
 export const useAUTO1111 = ({ host }: AUTO111Options) => {
+  const [auto1111State, setAUTO1111State] = useRecoilState(AUTO1111Atom)
+
   const invoke = async (options: Omit<SDAPIOptions, "host" | "auth">) => {
     return await invokeSDAPI({
       host,
@@ -66,13 +70,34 @@ export const useAUTO1111 = ({ host }: AUTO111Options) => {
     },
   }
 
-  const connectionCheck = async (): Promise<{
+  const connect = async (): Promise<{
     connection: ConnectionState
     security: SecurityState
   }> => {
     // check models
     try {
-      await v1.sdModels()
+      const models = await v1.sdModels()
+      const samplers = await v1.samplers()
+
+      setAUTO1111State((state) => {
+        return {
+          ...state,
+          models,
+          selectedModelName:
+            state.selectedModelName === ""
+              ? models[0]
+                ? models[0].model_name
+                : "None"
+              : state.selectedModelName,
+          samplers,
+          selectedSamplerName:
+            state.selectedSamplerName === ""
+              ? samplers[0]
+                ? samplers[0].name
+                : "None"
+              : state.selectedSamplerName,
+        }
+      })
 
       if (host.startsWith("https://")) {
         return {
@@ -95,6 +120,6 @@ export const useAUTO1111 = ({ host }: AUTO111Options) => {
 
   return {
     v1,
-    connectionCheck,
+    connect,
   }
 }
