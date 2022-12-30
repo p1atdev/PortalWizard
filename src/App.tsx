@@ -7,12 +7,12 @@ function App() {
   const [host, setHost] = useState("http://localhost:7860")
   const { v1_sd_models } = useAUTO1111({ host })
 
-  async function getConfig() {
-    setConfig("Loading...")
-    const models = await v1_sd_models()
-    console.log(models)
-    setConfig(models)
-  }
+  // async function getConfig() {
+  //   setConfig("Loading...")
+  //   const models = await v1_sd_models()
+  //   console.log(models)
+  //   setConfig(models)
+  // }
 
   return (
     <div className="flex h-[100dvh] w-full overflow-hidden">
@@ -36,9 +36,7 @@ function App() {
           <div className="flex justify-between p-2">
             <p>25/75</p>
 
-            <button className="py-1 px-2" onClick={getConfig}>
-              Generate
-            </button>
+            <button className="py-1 px-2">Generate</button>
           </div>
         </div>
 
