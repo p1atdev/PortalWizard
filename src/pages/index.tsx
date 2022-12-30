@@ -2,6 +2,7 @@ import { useState } from "react"
 import { invoke } from "@tauri-apps/api/tauri"
 import { useAUTO1111 } from "../hooks/auto1111"
 import { AUTO1111V1SDModels } from "../types/mod"
+import HostField from "../components/parameters/hostField"
 
 function App() {
   const [config, setConfig] = useState("")
@@ -107,18 +108,7 @@ function App() {
           <p className="py-1">{config}</p>
         </div>
 
-        <div className="sticky bottom-0 z-10 mt-auto grid h-[64px] w-full place-items-center border-t-[1px] border-gray-300 bg-white">
-          <div>
-            <p>Disconnect</p>
-            <div className="my-auto flex w-full items-center">
-              <p>OK</p>
-              <input
-                className="px-4 text-lg"
-                placeholder="http://localhost:8760"
-              />
-            </div>
-          </div>
-        </div>
+        <HostField initialHost={host} onChange={() => {}} />
       </div>
     </div>
   )

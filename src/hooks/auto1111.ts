@@ -3,8 +3,11 @@ import {
   AUTO1111V1Samplers,
   AUTO1111V1SDModels,
   AUTO1111V1Progress,
+  invokeSDAPI,
+  SDAPIOptions,
+  ConnectionState,
+  SecurityState,
 } from "../types/mod"
-import { invokeSDAPI, SDAPIOptions } from "../types/sdapi"
 
 interface AUTO111Options {
   host: string
@@ -63,7 +66,35 @@ export const useAUTO1111 = ({ host }: AUTO111Options) => {
     },
   }
 
+  const connectionCheck = async (): Promise<{
+    connection: ConnectionState
+    security: SecurityState
+  }> => {
+    // check models
+    try {
+      await v1.sdModels()
+
+      if (host.startsWith("https://")) {
+        return {
+          connection: "connected",
+          security: "secure",
+        }
+      } else {
+        return {
+          connection: "connected",
+          security: "insecure",
+        }
+      }
+    } catch {
+      return {
+        connection: "disconnected",
+        security: "unknown",
+      }
+    }
+  }
+
   return {
     v1,
+    connectionCheck,
   }
 }

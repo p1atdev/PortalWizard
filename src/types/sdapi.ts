@@ -11,6 +11,11 @@ export interface SDAPIOptions {
   }
 }
 
+export interface SDAPIRes {
+  status: "error" | "success"
+  message: string
+}
+
 export const invokeSDAPI = async (options: SDAPIOptions) => {
   const res: string = await invoke("sdapi", {
     host: options.host,
@@ -19,7 +24,14 @@ export const invokeSDAPI = async (options: SDAPIOptions) => {
     body: options.body,
   })
 
-  const json = JSON.parse(res)
+  const json: SDAPIRes = JSON.parse(res)
 
-  return json
+  switch (json.status) {
+    case "success": {
+      return JSON.parse(json.message)
+    }
+    case "error": {
+      throw new Error(json.message)
+    }
+  }
 }
